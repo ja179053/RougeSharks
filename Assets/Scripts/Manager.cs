@@ -1,19 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Manager : MonoBehaviour {
-	public AudioMixer am;
+	//The game's audio mixer
+	AudioMixer am;
+	//Source of theme music
 	AudioSource aso;
+	//Volume slider
 	public Slider s;
-	// Use this for initialization
+	// Use this for audio initialisation
 	void Start () {
 		am = Resources.Load ("MainAudioMixer") as AudioMixer;
 		aso = GetComponent<AudioSource> ();
 	}
 	
-	// Update is called once per frame
+	// Detects exit input
 	void Update () {
 		if (Input.GetKey (KeyCode.Escape)) {
 			if (Application.isEditor) {
@@ -23,8 +27,12 @@ public class Manager : MonoBehaviour {
 			}
 		}
 	}
+	//Sets the music volume using the slider.
 	public void UpdateVolume(){
 		aso.volume = s.value;
 	//	am.SetFloat (GetComponent<AudioSource>().outputAudioMixerGroup.name, s.value);
+	}
+	public static void EndGame(){
+		SceneManager.LoadScene (0);
 	}
 }
