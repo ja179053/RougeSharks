@@ -5,10 +5,12 @@ using System.Collections;
 
 public class Manager : MonoBehaviour {
 	public AudioMixer am;
+	AudioSource aso;
 	public Slider s;
 	// Use this for initialization
 	void Start () {
 		am = Resources.Load ("MainAudioMixer") as AudioMixer;
+		aso = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -21,8 +23,8 @@ public class Manager : MonoBehaviour {
 			}
 		}
 	}
-	public void UpdateVolume(){		
-		Debug.Log (GetComponent<AudioSource>().outputAudioMixerGroup.name);
-		am.SetFloat (GetComponent<AudioSource>().outputAudioMixerGroup.name, s.value);
+	public void UpdateVolume(){
+		aso.volume = s.value;
+	//	am.SetFloat (GetComponent<AudioSource>().outputAudioMixerGroup.name, s.value);
 	}
 }
