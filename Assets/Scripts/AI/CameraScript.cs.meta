@@ -1,5 +1,8 @@
 fileFormatVersion: 2
 guid: 606768bee43a19c41bce5472b0207307
+labels:
+- Architecture
+- Effect
 timeCreated: 1494490551
 licenseType: Free
 MonoImporter:

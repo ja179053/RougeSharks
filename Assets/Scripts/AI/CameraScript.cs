@@ -9,6 +9,8 @@ public class CameraScript : Manager {
 	void Start () {
 		players = FindObjectsOfType<Player> ();
 		centre = GameObject.Find ("Iceberg").transform.position;
+		LevelSetUp ();
+	//	Cursor.visible = false;
 	}
 	
 	// Update is called once per frame
@@ -18,6 +20,11 @@ public class CameraScript : Manager {
 		}
 		transform.LookAt (centre);
 	//	RaycastAll ();
+	}
+	new void Update(){
+		if (Input.GetKey (KeyCode.Escape)) {
+			EndGame ();
+		}
 	}
 	Vector3 FindCentre(){
 		Vector3 tempCentre = Vector3.zero;
