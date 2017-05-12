@@ -3,12 +3,14 @@ using System.Collections;
 
 public class Rouge : MonoBehaviour
 {
+	Rigidbody r;
 	void Start ()
 	{
 		if (m == null) {
 			m = GetComponentInChildren<SkinnedMeshRenderer> ().material;
 		//	Debug.Log (m.color.r);
 		}
+
 		myState = state.Idle;
 	}
 
@@ -16,6 +18,8 @@ public class Rouge : MonoBehaviour
 	{
 		if (c.gameObject.tag == "Player") {
 			change = 1;
+			Rigidbody r = GetComponent<Rigidbody> ();
+			c.gameObject.GetComponent<Player> ().Damage ((r.velocity.x + r.velocity.y + r.velocity.z)/10);
 			myState = state.ShouldGo;
 		} else {
 			//	Debug.Log (c.collider.name);

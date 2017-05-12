@@ -11,6 +11,8 @@ public class Manager : MonoBehaviour {
 	AudioSource aso;
 	//Volume slider
 	public Slider s;
+	//Number of players starting the match
+	protected static bool[] playerAIFalseCount;
 	// Use this for audio initialisation
 	void Start () {
 		LevelSetUp ();

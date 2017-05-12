@@ -16,7 +16,7 @@ Platform assembly: D:\RougeSharks\Builds\RougeSharks_Data\Managed\UnityEngine.UI
 Loading D:\RougeSharks\Builds\RougeSharks_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\RougeSharks\Builds\RougeSharks_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading D:\RougeSharks\Builds\RougeSharks_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.216 seconds
+- Completed reload, in  0.268 seconds
 Platform assembly: D:\RougeSharks\Builds\RougeSharks_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\RougeSharks\Builds\RougeSharks_Data\Managed\System.dll (this message is harmless)
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0

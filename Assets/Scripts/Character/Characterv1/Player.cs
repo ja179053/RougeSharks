@@ -4,45 +4,63 @@ using System.Collections;
 public class Player : MonoBehaviour {
 	//The player's rigidbody
 	Rigidbody r;
+	//Respawn point (single for now)
+	public static Vector3 respawnPoint;
 	//The identity of the player and how many lives they have
 	public int playerNumber = 1, lives = 1;
 	//Character speed. Can be set in the inspector but is set to the fastest character's speed
 	public float setSpeed = 0.5f;
-	static float speed = 0;
+	protected static float speed = 0;
 	//Public setting for how long/far you can dash/jump for. Make static after testing.
 	public float dashCooldown = 1, dashBoost = 2, jumpHeight = 1000;
+	public Stamina stamina;
+//	float staminaDamage = 0.5f;	
 	//If the player is on the ground
 	bool grounded;
 	//Layer of ground to detect
 	public LayerMask ground;
 	// Initialises Rigidbody and speed. 
 	void Start () {
+		CharacterSetUp ();
+	}
+	protected void CharacterSetUp(){
 		r = GetComponent<Rigidbody> ();
+		respawnPoint = GameObject.Find ("Iceberg").transform.position + (Vector3.up * 2);
 		if (setSpeed > speed) {
 			speed = setSpeed;
 		}
 	}
 	// Update is called once per frame.
 	void Update () {
+		Inputs (new Vector3(Input.GetAxis ("Horizontal" + playerNumber), 0 ,Input.GetAxis ("Vertical" + playerNumber)));
+	}
+	protected void Inputs(Vector3 input){
 		if (canDash) {
 			//Reads Inputs and moves the input direction.
-			Vector3 direction = new Vector3 (Input.GetAxis ("Horizontal" + playerNumber), 0, Input.GetAxis ("Vertical" + playerNumber));
+			float x,z;
+			x = Mathf.Clamp (input.x, -1, 1);
+			z = Mathf.Clamp (input.z, -1, 1);
+			Vector3 direction = new Vector3 (x, 0, z);
 			transform.LookAt (transform.position + direction);
 			r.MovePosition (transform.position + (direction * speed));
 			PowerInputs ();
 		} else {
 			r.MovePosition(transform.position + (transform.forward * dashBoost * (1 + dashHoldTime)));			
 		}
+		RunPlayer ();
+	}
+	void RunPlayer(){
+		stamina.Drain (-Time.deltaTime * stamina.staminaRegain);
 		//Raycast to detect when near the ground
 		RaycastHit rh;
 		grounded = Physics.Raycast (transform.position, Vector3.down * 0.2f, out rh);
 		//Makes sure the player isn't dead
 		CheckToDie();
 	}
-	bool canJump = true;
+	protected bool canJump = true;
 	//Moves the player up a little. Can't be used until the player falls back down.
 	//Add force looks nicer
-	IEnumerator Jump(){
+	protected IEnumerator Jump(){
 	//	Debug.Log ("jumping");
 		canJump = false;
 		r.AddForce(Vector3.up * jumpHeight);
@@ -51,11 +69,12 @@ public class Player : MonoBehaviour {
 		yield return new WaitUntil (() => grounded);
 		canJump = true;
 	}
-	bool canDash = true;
+	protected bool canDash = true;
 	//Moves the player forward quickly. Limited by dash cooldown.
-	IEnumerator Dash(){
+	protected IEnumerator Dash(){
 	//	Debug.Log ("dashing " + boost);
 		canDash = false;	
+		stamina.Drain(dashHoldTime);
 		yield return new WaitForSeconds (dashCooldown);
 		canDash = true;
 		dashHoldTime = 0;
@@ -73,19 +92,22 @@ public class Player : MonoBehaviour {
 		if (Input.GetButtonUp ("Dash" + playerNumber)) {
 			if (canDash) {
 				StartCoroutine (Dash ());
-				dashHoldTime = 0;
+				return;
 			}
 		}
 		//Dash can be charged for up to 2 seconds
 		if (Input.GetButton("Dash" + playerNumber)) {
 			if (canDash) {
-				dashHoldTime += Time.deltaTime;
-				if (dashHoldTime > 2) {
-					StartCoroutine (Dash ());
-				}
+				ChargeDash ();
 				return;
 			} 
 				dashHoldTime = 0;
+		}
+	}
+	protected void ChargeDash(){
+		dashHoldTime += Time.deltaTime;
+		if (dashHoldTime > dashBoost || dashHoldTime > stamina.Staminar) {
+			StartCoroutine (Dash ());
 		}
 	}
 	void CheckToDie(){
@@ -98,9 +120,12 @@ public class Player : MonoBehaviour {
 		if (lives == 0) {
 			Manager.EndGame ();
 		} else {
-			GameObject respawnPoint = GameObject.Find ("Iceberg");
-			transform.position = respawnPoint.transform.position + (Vector3.up * 2);
+			transform.position = respawnPoint;
 			r.velocity = Vector3.zero;
+			stamina.Drain (-stamina.maxStamina);
 		}
+	}
+	public void Damage(float f){
+		stamina.Drain(f);
 	}
 }
