@@ -20,13 +20,15 @@ public class Player : MonoBehaviour {
 	//Layer of ground to detect
 	public LayerMask ground;
 	public SkinnedMeshRenderer smr;
+	Animator anim;
 	void Start () {
-		smr = GetComponentInChildren<SkinnedMeshRenderer> ();
 		CharacterSetUp ();
 	}
 	// Initialises Rigidbody and speed. 
 	protected void CharacterSetUp(){
 		r = GetComponent<Rigidbody> ();
+		smr = GetComponentInChildren<SkinnedMeshRenderer> ();
+		anim = GetComponentInChildren<Animator> ();
 		respawnPoint = GameObject.Find ("Iceberg").transform.position + (Vector3.up * 2);
 		if (setSpeed > speed) {
 			speed = setSpeed;
@@ -43,6 +45,8 @@ public class Player : MonoBehaviour {
 			x = Mathf.Clamp (input.x, -1, 1);
 			z = Mathf.Clamp (input.z, -1, 1);
 			Vector3 direction = new Vector3 (x, 0, z);
+			anim.SetBool ("Idle", Idle(direction));
+			anim.SetBool ("Fast", Fast(direction));
 			transform.LookAt (transform.position + direction);
 			r.MovePosition (transform.position + (direction * speed));
 			PowerInputs ();
@@ -65,11 +69,13 @@ public class Player : MonoBehaviour {
 	protected IEnumerator Jump(){
 	//	Debug.Log ("jumping");
 		canJump = false;
+		anim.SetBool ("Jumping", canJump);
 		r.AddForce(Vector3.up * jumpHeight);
 	//	r.MovePosition (transform.position + (Vector3.up * jumpHeight));
 		yield return new WaitForSeconds (0.5f);
 		yield return new WaitUntil (() => grounded);
 		canJump = true;
+		anim.SetBool ("Jumping", canJump);
 	}
 	protected bool canDash = true;
 	//Moves the player forward quickly. Limited by dash cooldown.
@@ -129,5 +135,17 @@ public class Player : MonoBehaviour {
 	}
 	public void Damage(float f){
 		stamina.Drain(f);
+	}
+	static bool Idle(Vector3 v){
+		if (v.x < 0.1f && v.z < 0.1f && v.x > -0.1f && v.z > 0.1f) {
+			return true;
+		}
+		return false;
+	}
+	static bool Fast(Vector3 v){
+		if (v.x < -0.5f || v.z < -0.5f || v.x > 0.5f || v.z > 0.5f) {
+			return true;
+		}
+		return false;
 	}
 }
