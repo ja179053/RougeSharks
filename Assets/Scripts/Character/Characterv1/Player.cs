@@ -143,6 +143,7 @@ public class Player : MonoBehaviour {
 		return false;
 	}
 	static bool Fast(Vector3 v){
+		//0.5 when walk is done
 		if (v.x < -0.5f || v.z < -0.5f || v.x > 0.5f || v.z > 0.5f) {
 			return true;
 		}
