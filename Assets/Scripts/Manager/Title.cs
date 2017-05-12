@@ -34,7 +34,4 @@ public class Title : Manager {
 			characterMenu.SetActive (ready);
 		}
 	}
-	public void LoadOtherLevel(int i){
-		SceneManager.LoadScene (i);
-	}
 }

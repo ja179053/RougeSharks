@@ -88,14 +88,21 @@ public class CameraScript : Manager
 				Debug.Log (rh.collider.name);
 			}
 		}*/
+		//Negative numbers make the camera zoom in. Positive numbers make the camera zoom out.
 		float zoom = -zoomSpeed;
 		foreach (Player p in players) {
-			if (!p.GetComponent<Renderer> ().isVisible) {
-				Debug.Log ("zoom out");
-				zoom *= 1;
+			if (!p.smr.IsVisibleFromMain()) {
+			//	Debug.Log ("zoom out soft");
+				zoom *= -1;
+				break;
 			} 
 		}
-		zoom -= Camera.main.fieldOfView;
-		Camera.main.fieldOfView = Mathf.Clamp (zoom, 60, 120);
+		Zoom(zoom);
+
+	}
+	void Zoom(float f){
+		//	Debug.Log (zoom);
+		f += Camera.main.fieldOfView;
+		Camera.main.fieldOfView = Mathf.Clamp (f, 30, 120);
 	}
 }

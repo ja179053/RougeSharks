@@ -37,6 +37,9 @@ public class Manager : MonoBehaviour {
 		aso.volume = s.value;
 	//	am.SetFloat (GetComponent<AudioSource>().outputAudioMixerGroup.name, s.value);
 	}
+	public void LoadOtherLevel(int i){
+		SceneManager.LoadScene (i);
+	}
 	public static void EndGame(){
 		Cursor.visible = true;
 		SceneManager.LoadScene (1);

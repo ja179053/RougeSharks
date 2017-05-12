@@ -19,10 +19,12 @@ public class Player : MonoBehaviour {
 	bool grounded;
 	//Layer of ground to detect
 	public LayerMask ground;
-	// Initialises Rigidbody and speed. 
+	public SkinnedMeshRenderer smr;
 	void Start () {
+		smr = GetComponentInChildren<SkinnedMeshRenderer> ();
 		CharacterSetUp ();
 	}
+	// Initialises Rigidbody and speed. 
 	protected void CharacterSetUp(){
 		r = GetComponent<Rigidbody> ();
 		respawnPoint = GameObject.Find ("Iceberg").transform.position + (Vector3.up * 2);

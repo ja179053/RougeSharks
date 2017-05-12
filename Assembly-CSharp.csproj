@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Extensions\RendererVisibility.cs" />
      <Compile Include="Assets\Scripts\AI\Bob.cs" />
      <Compile Include="Assets\Scripts\AI\CameraScript.cs" />
      <Compile Include="Assets\Scripts\AI\Enemy.cs" />
