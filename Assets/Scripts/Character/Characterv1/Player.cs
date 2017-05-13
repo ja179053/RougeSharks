@@ -13,12 +13,14 @@ public class Player : MonoBehaviour {
 	protected static float speed = 0;
 	//Public setting for how long/far you can dash/jump for. Make static after testing.
 	public float dashCooldown = 1, dashBoost = 2, jumpHeight = 1000;
+	[HideInInspector]
 	public Stamina stamina;
 //	float staminaDamage = 0.5f;	
 	//If the player is on the ground
 	bool grounded;
 	//Layer of ground to detect
 	public LayerMask ground;
+	[HideInInspector]
 	public SkinnedMeshRenderer smr;
 	Animator anim;
 	void Start () {

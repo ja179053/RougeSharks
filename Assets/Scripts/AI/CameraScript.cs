@@ -13,9 +13,31 @@ public class CameraScript : Manager
 	{
 		SetupPlayers ();
 		LevelSetUp ();
-		//Disabled until volume in in pause menu (not created)
-		//	Cursor.visible = false;
+		Cursor.visible = false;
 	}
+	public GameObject pauseMenu, optionsMenu;
+	bool paused;
+	public bool Paused{
+		get{
+			return paused;
+		} set {
+			paused = value;
+			Time.timeScale = (paused) ? 0 : 1;
+			pauseMenu.SetActive (paused);
+			ToggleOptionsDispay (true);
+			Cursor.visible = paused;
+		}
+	}
+	public void ToggleOptionsDispay(bool mustDisable){
+		if (mustDisable) {
+			optionsMenu.SetActive (false);
+			pauseMenu.SetActive (Paused);
+			return;
+		}
+		optionsMenu.SetActive (!optionsMenu.activeSelf);
+		pauseMenu.SetActive (!optionsMenu.activeSelf);
+	}
+
 
 	void SetupPlayers ()
 	{
@@ -62,8 +84,9 @@ public class CameraScript : Manager
 
 	new void Update ()
 	{
-		if (Input.GetKey (KeyCode.Escape)) {
-			EndGame ();
+		if (Input.GetKeyDown (KeyCode.Escape)) {
+			//EndGame ();
+			Paused = !Paused;
 		}
 	}
 
