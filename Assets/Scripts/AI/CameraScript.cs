@@ -46,18 +46,20 @@ public class CameraScript : Manager
 			Debug.Log(players.Length);
 			for (int i = 0; i < playerAIFalseCount.Length; i++) {
 				Player p;
-	/*			if (playerAIFalseCount [i] == false) {
-					p = GameObject.Instantiate (newPlayer, startPoints [i].position, Quaternion.identity) as Player;
+				if (playerAIFalseCount [i] == false) {
+		//			p = GameObject.Instantiate (newPlayer, startPoints [i].position, Quaternion.identity) as Player;
 				} else {
-					p = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as Player;
+					GameObject g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
+					p = g.GetComponent<Player>();
+					Debug.Log("instantiated" + i);
+					p.stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+					p.stamina.GetComponent<Follow> ().target = p.transform;
+					p.playerNumber = i + 1;
+					players [i] = p;
 				}
-				Debug.Log("instantiated" + i);
-				p.stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-				p.stamina.GetComponent<Follow> ().target = p.transform;
-				p.playerNumber = i + 1;
-				players [i] = p;*/
 			}
 		} catch {
+			Debug.Log (playerAIFalseCount.Length);
 			players = FindObjectsOfType<Player> ();
 			for(int i = 0; i < players.Length; i++){
 				players [i].playerNumber = i + 1;

@@ -38,6 +38,7 @@ public class MultiplayerManager : Manager
 	}
 
 	public void PlayOnline(){
+		InitaliseGameScene ();
 		if (nm == null) {
 			nm = FindObjectOfType<NetworkManager> ();
 		}
@@ -53,8 +54,14 @@ public class MultiplayerManager : Manager
 		//	EndGame ();
 		}
 	}
+
 	public void StartFighting ()
 	{
+		InitaliseGameScene ();
+		SceneManager.LoadScene (5);
+	}
+
+	public void InitaliseGameScene(){
 		int i = 0, requiredPlayers = 0;
 		buttons = new bool[4];
 		foreach (Text t in characterSetUp) {
@@ -73,13 +80,13 @@ public class MultiplayerManager : Manager
 			Debug.LogError ("No players selected");
 			return;
 		} else if (requiredPlayers != nlm.numPlayers) {
-			Debug.LogError (string.Format ("You dont have {0} players connected", requiredPlayers));
+			Debug.LogError (string.Format ("You dont have {0} players connected. Waiting for {1} player{2}", requiredPlayers, requiredPlayers - nlm.numPlayers,(nlm.numPlayers < 2) ? "" : "(s)"));
 			return;
 		}
+		Debug.Log ("starting game");
 		playerAIFalseCount = new bool[i];
 		for (int j = 0; j < i; j++) {
 			playerAIFalseCount [j] = buttons [j];
 		}
-		SceneManager.LoadScene (5);
 	}
 }
