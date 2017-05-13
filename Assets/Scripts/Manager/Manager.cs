@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Manager : MonoBehaviour {
@@ -9,15 +10,18 @@ public class Manager : MonoBehaviour {
 	AudioMixer am;
 	//Source of theme music
 	AudioSource aso;
+	//Network manager being used
+	static NetworkManager nm;
+	protected static NetworkLobbyManager nlm;
 	//Volume slider
 	public Slider s;
 	//Number of players starting the match
 	protected static bool[] playerAIFalseCount;
 	// Use this for audio initialisation
 	void Start () {
-		LevelSetUp ();
+		MusicSetUp ();
 	}
-	protected void LevelSetUp(){
+	protected void MusicSetUp(){
 		am = Resources.Load ("MainAudioMixer") as AudioMixer;
 		aso = GetComponent<AudioSource> ();
 	}

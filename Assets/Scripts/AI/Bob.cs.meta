@@ -1,5 +1,8 @@
 fileFormatVersion: 2
 guid: 81fe39fc8c709b741a3057c3c7829868
+labels:
+- Character
+- Effect
 timeCreated: 1494511430
 licenseType: Free
 MonoImporter:

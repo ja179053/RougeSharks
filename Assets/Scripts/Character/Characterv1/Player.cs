@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour {
 		r = GetComponent<Rigidbody> ();
 		smr = GetComponentInChildren<SkinnedMeshRenderer> ();
 		anim = GetComponentInChildren<Animator> ();
+		nt = GetComponent<NetworkTransform> ();
 		respawnPoint = GameObject.Find ("Iceberg").transform.position + (Vector3.up * 2);
 		if (setSpeed > speed) {
 			speed = setSpeed;
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour {
 	void Update () {
 		Inputs (new Vector3(Input.GetAxis ("Horizontal" + playerNumber), 0 ,Input.GetAxis ("Vertical" + playerNumber)));
 	}
+	NetworkTransform nt;
 	protected void Inputs(Vector3 input){
 		if (canDash) {
 			//Reads Inputs and moves the input direction.
@@ -50,6 +53,7 @@ public class Player : MonoBehaviour {
 			anim.SetBool ("Idle", Idle(direction));
 			anim.SetBool ("Fast", Fast(direction));
 			transform.LookAt (transform.position + direction);
+			//nt.rigidbody3D.
 			r.MovePosition (transform.position + (direction * speed));
 			PowerInputs ();
 		} else {

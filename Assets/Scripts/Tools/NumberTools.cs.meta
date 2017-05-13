@@ -1,9 +1,6 @@
 fileFormatVersion: 2
-guid: 58afeff435eeb0143936c5ac03a17ccc
-labels:
-- Character
-- Effect
-timeCreated: 1494489613
+guid: cb09a81db7131694083e4a1043b799f8
+timeCreated: 1494683155
 licenseType: Free
 MonoImporter:
   serializedVersion: 2

@@ -14,6 +14,7 @@ public class TogglePlayerSelect : MonoBehaviour, IPointerDownHandler {
 		}
 	}
 	Text t;
+	public int playerNumber;
 	// Use this for initialization
 	void Start () {
 		Physics.queriesHitTriggers = true;
@@ -21,9 +22,11 @@ public class TogglePlayerSelect : MonoBehaviour, IPointerDownHandler {
 		CharE = CharacterEnum.Off;
 	}
 	public void OnPointerDown(PointerEventData eventData){
-		int i = (int)CharE + 1;
-		if (i > 3) {
-			i = 1;
+		int i = NumberTools.Loop((int)CharE + 1, 3, 1);
+		if (i == (int)CharacterEnum.Player) {
+			if (playerNumber > (MultiplayerManager.onlinePlayers * 2)) {
+				i = NumberTools.Loop (i + 1, 3, 1);
+			}
 		}
 		CharE = (CharacterEnum)i;
 	}

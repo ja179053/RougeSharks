@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 5047cee1082cc804785a17db4e4268f4
+labels:
+- Architecture
 folderAsset: yes
 timeCreated: 1494513326
 licenseType: Free

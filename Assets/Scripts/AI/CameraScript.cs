@@ -12,7 +12,7 @@ public class CameraScript : Manager
 	void Start ()
 	{
 		SetupPlayers ();
-		LevelSetUp ();
+		MusicSetUp ();
 		Cursor.visible = false;
 	}
 	public GameObject pauseMenu, optionsMenu;
