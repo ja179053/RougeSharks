@@ -13,6 +13,7 @@ public class MultiplayerManager : Manager
 	static NetworkManager nm;
 	static NetworkLobbyManager nlm;
 	public static int onlinePlayers = 1;
+
 	public void Leave(){
 		EndGame ();
 	}
@@ -49,7 +50,7 @@ public class MultiplayerManager : Manager
 	// Detects exit input
 	new void Update () {
 		if (Input.GetKey (KeyCode.Escape)) {
-			EndGame ();
+		//	EndGame ();
 		}
 	}
 	public void StartFighting ()

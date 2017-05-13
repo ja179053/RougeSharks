@@ -59,9 +59,10 @@ public class CameraScript : Manager
 			}
 		} catch {
 			players = FindObjectsOfType<Player> ();
-			foreach (Player p in players) {
-				p.stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-				p.stamina.GetComponent<Follow> ().target = p.transform;
+			for(int i = 0; i < players.Length; i++){
+				players [i].playerNumber = i + 1;
+				players[i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+				players[i].stamina.GetComponent<Follow> ().target = players[i].transform;
 			}
 		}
 		Debug.Log ("level setup complete");
