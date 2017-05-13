@@ -46,7 +46,7 @@ public class CameraScript : Manager
 			Debug.Log(players.Length);
 			for (int i = 0; i < playerAIFalseCount.Length; i++) {
 				Player p;
-				if (playerAIFalseCount [i] == false) {
+	/*			if (playerAIFalseCount [i] == false) {
 					p = GameObject.Instantiate (newPlayer, startPoints [i].position, Quaternion.identity) as Player;
 				} else {
 					p = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as Player;
@@ -55,7 +55,7 @@ public class CameraScript : Manager
 				p.stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
 				p.stamina.GetComponent<Follow> ().target = p.transform;
 				p.playerNumber = i + 1;
-				players [i] = p;
+				players [i] = p;*/
 			}
 		} catch {
 			players = FindObjectsOfType<Player> ();
