@@ -137,7 +137,7 @@ public class Player : MonoBehaviour {
 		stamina.Drain(f);
 	}
 	static bool Idle(Vector3 v){
-		if (v.x < 0.1f && v.z < 0.1f && v.x > -0.1f && v.z > 0.1f) {
+		if (v.x < 0.1f && v.z < 0.1f && v.x > -0.1f && v.z > -0.1f) {
 			return true;
 		}
 		return false;
