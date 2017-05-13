@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PlayerControlled;
 
 public class Enemy : Player {
 	public Transform target;

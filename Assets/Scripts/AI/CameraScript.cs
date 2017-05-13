@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PlayerControlled;
 
 public class CameraScript : Manager
 {
@@ -59,7 +60,6 @@ public class CameraScript : Manager
 				}
 			}
 		} catch {
-			Debug.Log (playerAIFalseCount.Length);
 			players = FindObjectsOfType<Player> ();
 			for(int i = 0; i < players.Length; i++){
 				players [i].playerNumber = i + 1;

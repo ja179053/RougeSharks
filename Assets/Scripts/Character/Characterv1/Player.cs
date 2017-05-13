@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
-
+namespace PlayerControlled{
 public class Player : MonoBehaviour {
 	//The player's rigidbody
 	Rigidbody r;
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
 	public LayerMask ground;
 	[HideInInspector]
 	public SkinnedMeshRenderer smr;
-	Animator anim;
+	public static Animator anim;
 	void Start () {
 		CharacterSetUp ();
 	}
@@ -155,4 +155,5 @@ public class Player : MonoBehaviour {
 		}
 		return false;
 	}
+}
 }
