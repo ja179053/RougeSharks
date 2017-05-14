@@ -8,6 +8,7 @@ public class LobbyPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		nlp = GetComponent<NetworkLobbyPlayer> ();
+		nlp.readyToBegin = true;
 	}
 	
 	// Update is called once per frame

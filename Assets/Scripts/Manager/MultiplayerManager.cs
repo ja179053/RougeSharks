@@ -46,6 +46,7 @@ public class MultiplayerManager : Manager
 			Debug.Log ("Server online");
 			nm.StartServer ();
 		}
+		nm.ServerChangeScene (nlm.playScene);
 	}
 
 	// Detects exit input
