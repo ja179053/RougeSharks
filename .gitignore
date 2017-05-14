@@ -219,3 +219,4 @@ Temp*
 *.sln
 Builds/RougeSharks_Data/output_log.txt
 Builds.zip
+Assembly-CSharp-Editor.csproj
