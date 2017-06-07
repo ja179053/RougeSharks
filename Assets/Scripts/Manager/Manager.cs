@@ -45,6 +45,7 @@ public class Manager : MonoBehaviour {
 		SceneManager.LoadScene (i);
 	}
 	public static void EndGame(){
+		Debug.Log ("Game over");
 		Cursor.visible = true;
 		SceneManager.LoadScene (1);
 	}

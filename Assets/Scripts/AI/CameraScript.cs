@@ -4,7 +4,7 @@ using PlayerControlled;
 
 public class CameraScript : Manager
 {
-	Player[] players;
+	static Player[] players;
 	public Transform[] startPoints;
 	public Vector3 centre;
 	public float minUpdateDistance;
@@ -17,6 +17,7 @@ public class CameraScript : Manager
 		Cursor.visible = false;
 	}
 	public GameObject pauseMenu, optionsMenu;
+
 	bool paused;
 	public bool Paused{
 		get{
@@ -44,7 +45,7 @@ public class CameraScript : Manager
 	{
 		try {
 			players = new Player[playerAIFalseCount.Length];
-			Debug.Log(players.Length);
+		//	Debug.Log(players.Length);
 			for (int i = 0; i < playerAIFalseCount.Length; i++) {
 				Player p;
 				if (playerAIFalseCount [i] == false) {
@@ -60,29 +61,37 @@ public class CameraScript : Manager
 				}
 			}
 		} catch {
-			players = FindObjectsOfType<Player> ();
-			for(int i = 0; i < players.Length; i++){
-				players [i].playerNumber = i + 1;
-				players[i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-				players[i].stamina.GetComponent<Follow> ().target = players[i].transform;
-			}
+			FindExistingPlayers ();
 		}
 		Debug.Log ("level setup complete");
 		centre = Player.respawnPoint;
+	}
+	void FindExistingPlayers(){
+		players = FindObjectsOfType<Player> ();
+		for(int i = 0; i < players.Length; i++){
+			players [i].playerNumber = i + 1;
+			players[i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+			players[i].stamina.GetComponent<Follow> ().target = players[i].transform;
+		}
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		if (players.Length == 1) {
-			centre = players [0].transform.position;
-		} else if (players.Length > 1) {
-			if (Vector3.Distance (centre, FindCentre ()) > minUpdateDistance) {
-				centre = FindCentre ();
+		if (players != null) {
+			if (players.Length == 1) {
+				centre = players [0].transform.position;
+			} else if (players.Length > 1) {
+				if (Vector3.Distance (centre, FindCentre ()) > minUpdateDistance) {
+					centre = FindCentre ();
+				}
+				RaycastAll ();
 			}
-			RaycastAll ();
+			transform.LookAt (centre);
+		} else {
+			Debug.LogError ("Players not found");
+			FindExistingPlayers ();
 		}
-		transform.LookAt (centre);
 	}
 
 	new void Update ()
@@ -97,6 +106,7 @@ public class CameraScript : Manager
 	{
 		Vector3 tempCentre = Vector3.zero;
 		foreach (Player p in players) {
+			Debug.Log (p.name);
 			tempCentre += p.transform.position;
 		}
 		tempCentre /= players.Length;
@@ -117,7 +127,7 @@ public class CameraScript : Manager
 		//Negative numbers make the camera zoom in. Positive numbers make the camera zoom out.
 		float zoom = -zoomSpeed;
 		foreach (Player p in players) {
-			if (!p.smr.IsVisibleFromMain()) {
+			if (!p.dead && !p.smr.IsVisibleFromMain()) {
 			//	Debug.Log ("zoom out soft");
 				zoom *= -1;
 				break;
@@ -129,6 +139,14 @@ public class CameraScript : Manager
 	void Zoom(float f){
 		//	Debug.Log (zoom);
 		f += Camera.main.fieldOfView;
-		Camera.main.fieldOfView = Mathf.Clamp (f, 30, 120);
+		Camera.main.fieldOfView = Mathf.Clamp (f, 35, 120);
+	}
+	static int deadPlayers = 0;
+	public static void Die(){
+		if ((players.Length - deadPlayers) < 2) {
+			EndGame ();
+		} else {
+			deadPlayers++;
+		}
 	}
 }

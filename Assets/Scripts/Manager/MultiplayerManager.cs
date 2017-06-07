@@ -38,15 +38,16 @@ public class MultiplayerManager : Manager
 	}
 
 	public void PlayOnline(){
-		InitaliseGameScene ();
-		if (nm == null) {
-			nm = FindObjectOfType<NetworkManager> ();
+		if (InitaliseGameScene ()) {
+			if (nm == null) {
+				nm = FindObjectOfType<NetworkManager> ();
+			}
+			if (!NetworkServer.active) {
+				Debug.Log ("Server online");
+				nm.StartServer ();
+			}
+			nm.ServerChangeScene (nlm.playScene);
 		}
-		if (!NetworkServer.active) {
-			Debug.Log ("Server online");
-			nm.StartServer ();
-		}
-		nm.ServerChangeScene (nlm.playScene);
 	}
 
 	// Detects exit input
@@ -62,7 +63,7 @@ public class MultiplayerManager : Manager
 		SceneManager.LoadScene (5);
 	}
 
-	public void InitaliseGameScene(){
+	public bool InitaliseGameScene(){
 		int i = 0, requiredPlayers = 0;
 		buttons = new bool[4];
 		foreach (Text t in characterSetUp) {
@@ -79,15 +80,16 @@ public class MultiplayerManager : Manager
 		//Error checking
 		if (i < 2) {
 			Debug.LogError ("No players selected");
-			return;
+			return false;
 		} else if (requiredPlayers != nlm.numPlayers) {
 			Debug.LogError (string.Format ("You dont have {0} players connected. Waiting for {1} player{2}", requiredPlayers, requiredPlayers - nlm.numPlayers,(nlm.numPlayers < 2) ? "" : "(s)"));
-			return;
+			return false;
 		}
 		Debug.Log ("starting game");
 		playerAIFalseCount = new bool[i];
 		for (int j = 0; j < i; j++) {
 			playerAIFalseCount [j] = buttons [j];
 		}
+		return true;
 	}
 }
