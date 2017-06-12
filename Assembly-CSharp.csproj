@@ -54,6 +54,8 @@
      <Compile Include="Assets\Scripts\AI\RotateAround.cs" />
      <Compile Include="Assets\Scripts\Character\CharacterV2\CharacterEnum.cs" />
      <Compile Include="Assets\Scripts\Character\CharacterV2\Player2D.cs" />
+     <Compile Include="Assets\Scripts\Character\CharacterV2\SelectCharacters.cs" />
+     <Compile Include="Assets\Scripts\Character\CharacterV2\SharkEnum.cs" />
      <Compile Include="Assets\Scripts\Character\CharacterV2\Stamina.cs" />
      <Compile Include="Assets\Scripts\Character\Characterv1\Player.cs" />
      <Compile Include="Assets\Scripts\Character\Characterv1\Rouge.cs" />
@@ -63,7 +65,7 @@
      <Compile Include="Assets\Scripts\Manager\Title.cs" />
      <Compile Include="Assets\Scripts\Manager\WaitLoad.cs" />
      <Compile Include="Assets\Scripts\Tools\NumberTools.cs" />
-     <Compile Include="Assets\Scripts\Tools\TogglePlayerSelect.cs" />
+     <Compile Include="Assets\UI\TogglePlayerSelect.cs" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />

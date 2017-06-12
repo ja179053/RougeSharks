@@ -465,7 +465,7 @@ ModelImporter:
     7400000: Armature_Red_Attack_Slide_Loop
     7400002: Armature_Red|Attack_Slide_Loop.001
     7400004: Armature_Red|Crouch
-    7400006: Armature_Red|Idle_1
+    7400006: Armature_Red_Idle_1
     7400008: Armature_Red|Jump
     7400010: Armature_Red|Jump_Air
     7400012: Armature_Red|Run
@@ -1951,7 +1951,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature_Red|Idle_1
+      name: Armature_Red_Idle_1
       takeName: Armature_Red|Idle_1
       firstFrame: 0
       lastFrame: 121

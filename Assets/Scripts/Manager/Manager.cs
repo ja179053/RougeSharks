@@ -42,11 +42,14 @@ public class Manager : MonoBehaviour {
 	//	am.SetFloat (GetComponent<AudioSource>().outputAudioMixerGroup.name, s.value);
 	}
 	public void LoadOtherLevel(int i){
-		SceneManager.LoadScene (i);
+		SceneManager.LoadScene (i - 1);
 	}
 	public static void EndGame(){
 		Debug.Log ("Game over");
 		Cursor.visible = true;
-		SceneManager.LoadScene (1);
+		SceneManager.LoadScene (0);
+	}
+	public void EndGameCommand(){
+		EndGame ();
 	}
 }

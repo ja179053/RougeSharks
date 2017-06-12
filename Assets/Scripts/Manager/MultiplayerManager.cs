@@ -17,16 +17,24 @@ public class MultiplayerManager : Manager
 	public void Leave(){
 		EndGame ();
 	}
+	public void ListServers(){
+		Debug.Log(Network.connections.Length);
+	}
+	public void Connect(){
+		Network.Connect ("127.0.0.1", 25000);
+	}
 	public void Host ()
 	{
 		if (nlm.numPlayers == 0) {
 			nlm.StartHost ();
+			characterSetUp [0].GetComponent<TogglePlayerSelect> ().X (1);
 		}
 	}
 
 	public void Join ()
 	{
 		nlm.TryToAddPlayer ();
+		characterSetUp [nlm.numPlayers - 1].GetComponent<TogglePlayerSelect> ().X (1);
 	}
 
 	new void Start ()
