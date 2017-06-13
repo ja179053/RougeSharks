@@ -32,6 +32,5 @@ public class TogglePlayerSelect : MonoBehaviour, IPointerDownHandler {
 			}
 		}
 		CharE = (CharacterEnum)i;
-		Debug.Log (CharE);
 	}
 }

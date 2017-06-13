@@ -26,6 +26,7 @@ public class MultiplayerManager : Manager
 	public void Host ()
 	{
 		if (nlm.numPlayers == 0) {
+		//	nlm.networkAddress = Network.player.ipAddress;
 			nlm.StartHost ();
 			characterSetUp [0].GetComponent<TogglePlayerSelect> ().X (1);
 		}

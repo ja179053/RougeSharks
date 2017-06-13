@@ -19,6 +19,6 @@ public class Bob : MonoBehaviour
 		float x = Mathf.Sin (direction.x * (Time.time + randomFloat)) * distance;
 		float y = Mathf.Sin (direction.y * (Time.time + randomFloat)) * distance;
 		float z = Mathf.Sin (direction.z * (Time.time + randomFloat)) * distance;
-	//	transform.position = (speed * new Vector3 (x, y, z)) + initialPosition;
+		transform.position = (speed * new Vector3 (x, y, z)) + initialPosition;
 	}
 }

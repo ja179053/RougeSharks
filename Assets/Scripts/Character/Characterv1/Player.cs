@@ -39,7 +39,7 @@ namespace PlayerControlled
 			smr = GetComponentInChildren<SkinnedMeshRenderer> ();
 			anim = GetComponentInChildren<Animator> ();
 			nt = GetComponent<NetworkTransform> ();
-			respawnPoint = GameObject.Find ("Iceberg").transform.position + (Vector3.up * 2);
+			respawnPoint = GameObject.FindGameObjectWithTag ("Ground").transform.position + (Vector3.up * 2);
 			if (setSpeed > speed) {
 				speed = setSpeed;
 			}
@@ -55,21 +55,23 @@ namespace PlayerControlled
 		public bool dead;
 		protected void Inputs (Vector3 input)
 		{
-			if (canDash && !dead) {
-				//Reads Inputs and moves the input direction.
-				float x, z;
-				x = Mathf.Clamp (input.x, -1, 1);
-				z = Mathf.Clamp (input.z, -1, 1);
-				Vector3 direction = new Vector3 (x, 0, z);
-				anim.SetBool ("Idle", Idle (direction));
-				anim.SetBool ("Fast", Fast (direction));
-				transform.LookAt (transform.position + direction);
-				//nt.rigidbody3D.
-				r.MovePosition (transform.position + (direction * speed));
-			} else {
-				r.MovePosition (transform.position + (transform.forward * dashBoost * (1 + dashHoldTime)));			
+			if (!dead) {
+				if (canDash) {
+					//Reads Inputs and moves the input direction.
+					float x, z;
+					x = Mathf.Clamp (input.x, -1, 1);
+					z = Mathf.Clamp (input.z, -1, 1);
+					Vector3 direction = new Vector3 (x, 0, z);
+					anim.SetBool ("Idle", Idle (direction));
+					anim.SetBool ("Fast", Fast (direction));
+					transform.LookAt (transform.position + direction);
+					//nt.rigidbody3D.
+					r.MovePosition (transform.position + (direction * speed));
+				} else {
+					r.MovePosition (transform.position + (transform.forward * dashBoost * (1 + dashHoldTime)));			
+				}
+				RunPlayer ();
 			}
-			RunPlayer ();
 		}
 
 		void RunPlayer ()
@@ -165,8 +167,9 @@ namespace PlayerControlled
 					r.Sleep ();
 				} else {
 					//Respawns player with maximum stamina
-					transform.position = respawnPoint;
 					r.velocity = Vector3.zero;
+					r.angularVelocity = Vector3.zero;
+					transform.position = respawnPoint;
 					stamina.Drain (-stamina.maxStamina);
 				}
 			}
