@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class TogglePlayerSelect : MonoBehaviour, IPointerDownHandler {
 	CharacterEnum charE;
@@ -27,7 +28,7 @@ public class TogglePlayerSelect : MonoBehaviour, IPointerDownHandler {
 	}
 	public void X(int i){
 		if (i == (int)CharacterEnum.Player) {
-			if (playerNumber > (MultiplayerManager.onlinePlayers * 2)) {
+			if (playerNumber > ((MultiplayerManager.nlm.numPlayers) * 2)) {
 				i = NumberTools.Loop (i + 1, 3, 1);
 			}
 		}

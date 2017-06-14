@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace PlayerControlled
 {
-	public class Player : MonoBehaviour
+	public class Player : NetworkBehaviour
 	{
 		//The player's rigidbody
 		Rigidbody r;
@@ -55,7 +55,7 @@ namespace PlayerControlled
 		public bool dead;
 		protected void Inputs (Vector3 input)
 		{
-			if (!dead) {
+			if (!dead && isLocalPlayer) {
 				if (canDash) {
 					//Reads Inputs and moves the input direction.
 					float x, z;

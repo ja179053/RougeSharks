@@ -11,8 +11,7 @@ public abstract class Manager : MonoBehaviour {
 	//Source of theme music
 	AudioSource aso;
 	//Network manager being used
-	protected static NetworkManager nm;
-	protected static NetworkLobbyManager nlm;
+	public static NetworkLobbyManager nlm;
 	//Volume slider
 	public Slider s;
 	//Number of players starting the match

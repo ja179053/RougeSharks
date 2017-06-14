@@ -20,6 +20,7 @@ public class MultiplayerManager : Manager
 			Debug.Log ("instnace already exists");
 			Destroy (this.gameObject);
 		}
+		Cursor.visible = true;
 	}
 
 	public void ListServers(){
@@ -53,14 +54,11 @@ public class MultiplayerManager : Manager
 
 	public void PlayOnline(){
 		if (InitaliseGameScene ()) {
-			if (nm == null) {
-				nm = FindObjectOfType<NetworkManager> ();
-			}
 			if (!NetworkServer.active) {
 				Debug.Log ("Server online");
-				nm.StartServer ();
+				nlm.StartServer ();
 			}
-			nm.ServerChangeScene (nlm.playScene);
+			nlm.ServerChangeScene (nlm.playScene);
 		}
 	}
 
