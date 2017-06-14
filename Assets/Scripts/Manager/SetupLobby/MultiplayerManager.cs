@@ -6,13 +6,20 @@ using System.Collections;
 
 public class MultiplayerManager : Manager
 {
+	static MultiplayerManager instance;
 	public Text[] characterSetUp;
 
 	bool[] buttons;
 	public static int onlinePlayers = 1;
 
 	void Awake(){
-		DontDestroyOnLoad (this);
+		if (instance == null) {
+			instance = this;
+			DontDestroyOnLoad (this);
+		} else {
+			Debug.Log ("instnace already exists");
+			Destroy (this.gameObject);
+		}
 	}
 
 	public void ListServers(){
@@ -29,7 +36,6 @@ public class MultiplayerManager : Manager
 			characterSetUp [0].GetComponent<TogglePlayerSelect> ().X (1);
 		}
 	}
-
 	public void Join ()
 	{
 		nlm.TryToAddPlayer ();

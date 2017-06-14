@@ -12,10 +12,10 @@ public class CameraScript : Manager
 	// Use this for initialization
 	void Start ()
 	{
-		FindExistingPlayers ();
 		MusicSetUp ();
 		Cursor.visible = false;
 		startRot = transform.rotation;
+		FindExistingPlayers ();
 	}
 	public GameObject pauseMenu, optionsMenu;
 	Quaternion startRot;
