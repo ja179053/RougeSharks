@@ -38,7 +38,9 @@ public abstract class Manager : MonoBehaviour {
 		Cursor.visible = true;
 		SceneManager.LoadScene (0);
 	}
-	public void EndGameCommand(){
+	public void Leave(){
+		nlm.StopHost ();
+		Debug.Log (nlm.matchHost);
 		EndGame ();
 	}
 }

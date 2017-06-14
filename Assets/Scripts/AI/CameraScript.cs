@@ -15,9 +15,10 @@ public class CameraScript : Manager
 		FindExistingPlayers ();
 		MusicSetUp ();
 		Cursor.visible = false;
+		startRot = transform.rotation;
 	}
 	public GameObject pauseMenu, optionsMenu;
-
+	Quaternion startRot;
 	bool paused;
 	public bool Paused{
 		get{
@@ -40,55 +41,25 @@ public class CameraScript : Manager
 		pauseMenu.SetActive (!optionsMenu.activeSelf);
 	}
 
-
-	void SetupPlayers ()
-	{
-		try {
-			players = new Player[playerAIFalseCount.Length];
-		//	Debug.Log(players.Length);
-			for (int i = 0; i < playerAIFalseCount.Length; i++) {
-				Player p;
-				GameObject g;
-				if (playerAIFalseCount [i] == false) {
-					Debug.LogError("Cannot spawn " + nlm.gamePlayerPrefab.name + "for player " + (i+1));
-					continue;
-					g = GameObject.Instantiate (nlm.gamePlayerPrefab, startPoints [i].position, Quaternion.identity) as GameObject;
-				} else {
-					g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
-				}
-				p = g.GetComponent<Player>();
-				Debug.Log("instantiated" + i);
-				p.stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-				p.stamina.GetComponent<Follow> ().target = p.transform;
-				p.playerNumber = i + 1;
-				players [i] = p;
-			}
-		} catch {
-			FindExistingPlayers ();
-		}
-		Debug.Log ("level setup complete");
-		centre = Player.respawnPoint;
-	}
 	void FindExistingPlayers(){
 		Player[] tempPlayers = FindObjectsOfType<Player> ();
 		players = new Player[playerAIFalseCount.Length];
-		for (int i = 0; i < tempPlayers.Length; i++) {
-			players [i] = tempPlayers [i];
-			players [i].playerNumber = i + 1;
-			players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-			players [i].stamina.GetComponent<Follow> ().target = players [i].transform;
-		}
-		for(int i = tempPlayers.Length; i < players.Length; i++){
-			GameObject g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
-			players [i] = g.GetComponent<Player>();
-			players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-			players [i].stamina.GetComponent<Follow> ().target = players[i].transform;
-			players [i].playerNumber = i + 1;
+		for(int i = 0; i < players.Length; i++){
+			if (i < tempPlayers.Length) {
+				players [i] = tempPlayers [i];
+				players [i].playerNumber = i + 1;
+				players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+				players [i].stamina.GetComponent<Follow> ().target = players [i].transform;
+			} else {
+				GameObject g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
+				players [i] = g.GetComponent<Player> ();
+				players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+				players [i].stamina.GetComponent<Follow> ().target = players [i].transform;
+				players [i].playerNumber = i + 1;
+			}
 		}
 		Debug.Log ("level setup complete");
 		centre = Player.respawnPoint;
-	}
-	void NewEnemy(){
 	}
 	
 	// Update is called once per frame
@@ -97,13 +68,15 @@ public class CameraScript : Manager
 		if (players != null) {
 			if (players.Length == 1) {
 				centre = players [0].transform.position;
+				transform.LookAt (centre);
 			} else if (players.Length > 1) {
-				if (Vector3.Distance (centre, FindCentre ()) > minUpdateDistance) {
+				transform.rotation = startRot;
+		/*		if (Vector3.Distance (centre, FindCentre ()) > minUpdateDistance) {
 					centre = FindCentre ();
 				}
-				RaycastAll ();
+				RaycastAll ();*/
 			}
-			transform.LookAt (centre);
+	//		transform.LookAt (centre);
 		} else {
 			Debug.LogError ("Players not found");
 		//	FindExistingPlayers ();

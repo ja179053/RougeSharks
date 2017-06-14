@@ -14,11 +14,6 @@ public class MultiplayerManager : Manager
 	void Awake(){
 		DontDestroyOnLoad (this);
 	}
-	public void Leave(){
-		nlm.StopHost ();
-		Debug.Log (nlm.matchHost);
-		EndGame ();
-	}
 
 	public void ListServers(){
 		Debug.Log(nlm.matchInfo);
