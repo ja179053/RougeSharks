@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+//Allows sine movement
 public class Bob : MonoBehaviour
 {
 	public Vector3 direction;

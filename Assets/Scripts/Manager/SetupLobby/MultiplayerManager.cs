@@ -9,16 +9,19 @@ public class MultiplayerManager : Manager
 	public Text[] characterSetUp;
 
 	bool[] buttons;
-	//Network manager being used
-	static NetworkManager nm;
-	static NetworkLobbyManager nlm;
 	public static int onlinePlayers = 1;
 
+	void Awake(){
+		DontDestroyOnLoad (this);
+	}
 	public void Leave(){
+		nlm.StopHost ();
+		Debug.Log (nlm.matchHost);
 		EndGame ();
 	}
+
 	public void ListServers(){
-		Debug.Log(Network.connections.Length);
+		Debug.Log(nlm.matchInfo);
 	}
 	public void Connect(){
 		Network.Connect ("127.0.0.1", 25000);
@@ -35,6 +38,7 @@ public class MultiplayerManager : Manager
 	public void Join ()
 	{
 		nlm.TryToAddPlayer ();
+	//	nlm.GetStartPosition ();
 		characterSetUp [nlm.numPlayers - 1].GetComponent<TogglePlayerSelect> ().X (1);
 	}
 
@@ -59,44 +63,33 @@ public class MultiplayerManager : Manager
 		}
 	}
 
-	// Detects exit input
-	new void Update () {
-		if (Input.GetKey (KeyCode.Escape)) {
-		//	EndGame ();
-		}
-	}
-
-	public void StartFighting ()
-	{
-		InitaliseGameScene ();
-		SceneManager.LoadScene (5);
-	}
-
 	public bool InitaliseGameScene(){
-		int i = 0, requiredPlayers = 0;
+		int players = 0, requiredPlayers = 0;
 		buttons = new bool[4];
+		//Finds out how many players there are
 		foreach (Text t in characterSetUp) {
 			if (t.text != "" + CharacterEnum.Off) {
-				buttons [i] = (t.text == "" + CharacterEnum.AI);
+				buttons [players] = (t.text == "" + CharacterEnum.AI);
 				//If a player is in use,
-				if (!buttons [i]) {
+				if (!buttons [players]) {
 					requiredPlayers++;
 				}
 				//	Debug.Log (buttons [i]);
-				i++;
+				players++;
 			}
 		}
 		//Error checking
-		if (i < 2) {
+		if (players < 2) {
 			Debug.LogError ("No players selected");
 			return false;
 		} else if (requiredPlayers != nlm.numPlayers) {
-			Debug.LogError (string.Format ("You dont have {0} players connected. Waiting for {1} player{2}", requiredPlayers, requiredPlayers - nlm.numPlayers,(nlm.numPlayers < 2) ? "" : "(s)"));
+			Debug.LogError (string.Format ("You dont have {0} players connected. Waiting for {1} player{2}.", requiredPlayers, requiredPlayers - nlm.numPlayers,(nlm.numPlayers < 2) ? "" : "(s)"));
 			return false;
 		}
+		//Uses number/arrangement of players to initialise game scene
 		Debug.Log ("starting game");
-		playerAIFalseCount = new bool[i];
-		for (int j = 0; j < i; j++) {
+		playerAIFalseCount = new bool[players];
+		for (int j = 0; j < players; j++) {
 			playerAIFalseCount [j] = buttons [j];
 		}
 		return true;

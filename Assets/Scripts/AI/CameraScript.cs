@@ -12,7 +12,7 @@ public class CameraScript : Manager
 	// Use this for initialization
 	void Start ()
 	{
-		SetupPlayers ();
+		FindExistingPlayers ();
 		MusicSetUp ();
 		Cursor.visible = false;
 	}
@@ -48,17 +48,20 @@ public class CameraScript : Manager
 		//	Debug.Log(players.Length);
 			for (int i = 0; i < playerAIFalseCount.Length; i++) {
 				Player p;
+				GameObject g;
 				if (playerAIFalseCount [i] == false) {
-		//			p = GameObject.Instantiate (newPlayer, startPoints [i].position, Quaternion.identity) as Player;
+					Debug.LogError("Cannot spawn " + nlm.gamePlayerPrefab.name + "for player " + (i+1));
+					continue;
+					g = GameObject.Instantiate (nlm.gamePlayerPrefab, startPoints [i].position, Quaternion.identity) as GameObject;
 				} else {
-					GameObject g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
-					p = g.GetComponent<Player>();
-					Debug.Log("instantiated" + i);
-					p.stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-					p.stamina.GetComponent<Follow> ().target = p.transform;
-					p.playerNumber = i + 1;
-					players [i] = p;
+					g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
 				}
+				p = g.GetComponent<Player>();
+				Debug.Log("instantiated" + i);
+				p.stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+				p.stamina.GetComponent<Follow> ().target = p.transform;
+				p.playerNumber = i + 1;
+				players [i] = p;
 			}
 		} catch {
 			FindExistingPlayers ();
@@ -67,12 +70,25 @@ public class CameraScript : Manager
 		centre = Player.respawnPoint;
 	}
 	void FindExistingPlayers(){
-		players = FindObjectsOfType<Player> ();
-		for(int i = 0; i < players.Length; i++){
+		Player[] tempPlayers = FindObjectsOfType<Player> ();
+		players = new Player[playerAIFalseCount.Length];
+		for (int i = 0; i < tempPlayers.Length; i++) {
+			players [i] = tempPlayers [i];
 			players [i].playerNumber = i + 1;
-			players[i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-			players[i].stamina.GetComponent<Follow> ().target = players[i].transform;
+			players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+			players [i].stamina.GetComponent<Follow> ().target = players [i].transform;
 		}
+		for(int i = tempPlayers.Length; i < players.Length; i++){
+			GameObject g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
+			players [i] = g.GetComponent<Player>();
+			players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
+			players [i].stamina.GetComponent<Follow> ().target = players[i].transform;
+			players [i].playerNumber = i + 1;
+		}
+		Debug.Log ("level setup complete");
+		centre = Player.respawnPoint;
+	}
+	void NewEnemy(){
 	}
 	
 	// Update is called once per frame
@@ -90,7 +106,7 @@ public class CameraScript : Manager
 			transform.LookAt (centre);
 		} else {
 			Debug.LogError ("Players not found");
-			FindExistingPlayers ();
+		//	FindExistingPlayers ();
 		}
 	}
 

@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
-public class Manager : MonoBehaviour {
+public abstract class Manager : MonoBehaviour {
 	//The game's audio mixer
 	AudioMixer am;
 	//Source of theme music
 	AudioSource aso;
 	//Network manager being used
-	static NetworkManager nm;
+	protected static NetworkManager nm;
 	protected static NetworkLobbyManager nlm;
 	//Volume slider
 	public Slider s;
@@ -24,17 +24,6 @@ public class Manager : MonoBehaviour {
 	protected void MusicSetUp(){
 		am = Resources.Load ("MainAudioMixer") as AudioMixer;
 		aso = GetComponent<AudioSource> ();
-	}
-	
-	// Detects exit input
-	void Update () {
-		if (Input.GetKey (KeyCode.Escape)) {
-			if (Application.isEditor) {
-				Debug.Break ();
-			} else {
-				Application.Quit ();
-			}
-		}
 	}
 	//Sets the music volume using the slider.
 	public void UpdateVolume(){

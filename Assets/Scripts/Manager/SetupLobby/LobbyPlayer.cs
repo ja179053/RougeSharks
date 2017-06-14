@@ -6,6 +6,9 @@ using UnityEngine;
 public class LobbyPlayer : MonoBehaviour {
 	NetworkLobbyPlayer nlp;
 	// Use this for initialization
+	void Awake(){
+		DontDestroyOnLoad (this.gameObject);
+	}
 	void Start () {
 		nlp = GetComponent<NetworkLobbyPlayer> ();
 		nlp.readyToBegin = true;
@@ -13,11 +16,11 @@ public class LobbyPlayer : MonoBehaviour {
 	//	Debug.Log(nlm.startPositions.Count);
 	}
 	
-	// Update is called once per frame
+/*	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			nlp.RemovePlayer ();
 			MultiplayerManager.EndGame ();
 		}
-	}
+	}*/
 }
