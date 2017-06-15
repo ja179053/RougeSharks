@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using PlayerControlled;
 
@@ -51,7 +52,8 @@ public class CameraScript : Manager
 				players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
 				players [i].stamina.GetComponent<Follow> ().target = players [i].transform;
 			} else {
-				GameObject g = GameObject.Instantiate (newEnemy, startPoints [i].position, Quaternion.identity) as GameObject;
+				GameObject g = GameObject.Instantiate (nlm.spawnPrefabs[0], startPoints [i].position, Quaternion.identity) as GameObject;
+				NetworkServer.Spawn (g);
 				players [i] = g.GetComponent<Player> ();
 				players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
 				players [i].stamina.GetComponent<Follow> ().target = players [i].transform;

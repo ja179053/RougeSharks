@@ -55,7 +55,7 @@ namespace PlayerControlled
 		public bool dead;
 		protected void Inputs (Vector3 input)
 		{
-			if (!dead && isLocalPlayer) {
+			if (!dead) {
 				if (canDash) {
 					//Reads Inputs and moves the input direction.
 					float x, z;
