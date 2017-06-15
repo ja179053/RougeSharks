@@ -79,7 +79,7 @@ public class CameraScript : Manager
 	//		transform.LookAt (centre);
 		} else {
 			Debug.LogError ("Players not found");
-		//	FindExistingPlayers ();
+			FindExistingPlayers ();
 		}
 	}
 

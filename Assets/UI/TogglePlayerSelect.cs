@@ -26,9 +26,9 @@ public class TogglePlayerSelect : MonoBehaviour, IPointerDownHandler {
 		int i = NumberTools.Loop ((int)CharE + 1, 3, 1);
 		X (i);
 	}
-	public void X(int i){
+	public void X(int i, bool overrideNow = false){
 		if (i == (int)CharacterEnum.Player) {
-			if (playerNumber > ((MultiplayerManager.nlm.numPlayers) * 2)) {
+			if (!overrideNow && playerNumber > ((MultiplayerManager.nlm.numPlayers) * 2)) {
 				i = NumberTools.Loop (i + 1, 3, 1);
 			}
 		}
