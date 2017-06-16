@@ -134,10 +134,9 @@ public class CameraScript : Manager
 	}
 	static int deadPlayers = 0;
 	public static void Die(){
+		deadPlayers++;
 		if ((players.Length - deadPlayers) < 2) {
 			EndGame ();
-		} else {
-			deadPlayers++;
-		}
+		} 
 	}
 }
