@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\Manager\SetupLobby\MultiplayerManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SetupLobby\PlayerSpawner.cs" />
      <Compile Include="Assets\Scripts\Manager\SetupLobby\SelectToSet.cs" />
+     <Compile Include="Assets\Scripts\Manager\SetupLobby\ToggleOnline.cs" />
      <Compile Include="Assets\Scripts\Manager\Title.cs" />
      <Compile Include="Assets\Scripts\Manager\WaitLoad.cs" />
      <Compile Include="Assets\Scripts\Tools\NumberTools.cs" />

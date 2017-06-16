@@ -20,7 +20,11 @@ public class TogglePlayerSelect : MonoBehaviour, IPointerDownHandler {
 	void Start () {
 		Physics.queriesHitTriggers = true;
 		t = GetComponent<Text> ();
+		if(Manager.playerAIFalseCount != null){
+			CharE = (Manager.playerAIFalseCount [playerNumber - 1] == true) ? CharacterEnum.AI : CharacterEnum.Player;
+		} else {
 		CharE = CharacterEnum.Off;
+		}
 	}
 	public void OnPointerDown(PointerEventData eventData){
 		int i = NumberTools.Loop ((int)CharE + 1, 3, 1);

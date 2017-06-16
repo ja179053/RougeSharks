@@ -17,31 +17,10 @@ public class MultiplayerManager : Manager
 			instance = this;
 			DontDestroyOnLoad (this);
 		} else {
-			Debug.Log ("instnace already exists");
+			Debug.Log ("instance already exists");
 			Destroy (this.gameObject);
 		}
 		Cursor.visible = true;
-	}
-
-	public void ListServers(){
-		Debug.Log(nlm.matchInfo);
-	}
-	public void Connect(){
-		Network.Connect ("127.0.0.1", 25000);
-	}
-	public void Host ()
-	{
-		if (nlm.numPlayers == 0) {
-		//	nlm.networkAddress = Network.player.ipAddress;
-			nlm.StartHost ();
-			characterSetUp [0].GetComponent<TogglePlayerSelect> ().X (1, true);
-		}
-	}
-	public void Join ()
-	{
-		nlm.TryToAddPlayer ();
-	//	nlm.GetStartPosition ();
-		characterSetUp [nlm.numPlayers - 1].GetComponent<TogglePlayerSelect> ().X (1);
 	}
 
 	new void Start ()
@@ -52,10 +31,38 @@ public class MultiplayerManager : Manager
 		}
 	}
 
+	public void ListServers(){
+		if (nlm.matches != null) {
+	//		nlm.matchMaker.
+	//		StartCoroutine(nlm.matchMaker.ListMatches());
+		}
+	}
+	public void CreateMatch(){
+		nlm.matchMaker.CreateMatch ("default", 4, false, "", "192.168.1.254", "", 0, 1, nlm.OnMatchCreate);
+		SetUpPlayer (0);
+	}
+	public void Host ()
+	{
+		if (nlm.numPlayers == 0) {
+		//	nlm.networkAddress = Network.player.ipAddress;
+			nlm.StartHost ();
+			SetUpPlayer (0);
+		}
+	}
+	public void Join ()
+	{
+		nlm.TryToAddPlayer ();
+		//	nlm.GetStartPosition ();
+		SetUpPlayer(1);
+	}
+	public void SetUpPlayer(int i){
+		characterSetUp [i].GetComponent<TogglePlayerSelect> ().X (1, true);
+		//Show Controls for player 1
+	}
+
 	public void PlayOnline(){
 		if (InitaliseGameScene ()) {
 			if (!NetworkServer.active) {
-				Debug.Log ("Server online");
 				nlm.StartServer ();
 			}
 			nlm.ServerChangeScene (nlm.playScene);
@@ -68,6 +75,7 @@ public class MultiplayerManager : Manager
 		//Finds out how many players there are
 		foreach (Text t in characterSetUp) {
 			if (t.text != "" + CharacterEnum.Off) {
+				//The new button array sets each value to "true if AI"
 				buttons [players] = (t.text == "" + CharacterEnum.AI);
 				//If a player is in use,
 				if (!buttons [players]) {
@@ -92,5 +100,8 @@ public class MultiplayerManager : Manager
 			playerAIFalseCount [j] = buttons [j];
 		}
 		return true;
+	}
+	public void MainMenu(){
+		SceneManager.LoadScene (0);		
 	}
 }

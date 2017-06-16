@@ -15,7 +15,7 @@ public abstract class Manager : MonoBehaviour {
 	//Volume slider
 	public Slider s;
 	//Number of players starting the match
-	protected static bool[] playerAIFalseCount;
+	public static bool[] playerAIFalseCount;
 	// Use this for audio initialisation
 	void Start () {
 		MusicSetUp ();
@@ -35,7 +35,7 @@ public abstract class Manager : MonoBehaviour {
 	public static void EndGame(){
 		Debug.Log ("Game over");
 		Cursor.visible = true;
-		SceneManager.LoadScene (0);
+		SceneManager.LoadScene (1);
 	}
 	public void Leave(){
 		nlm.StopHost ();
