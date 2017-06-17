@@ -26,7 +26,7 @@ namespace PlayerControlled
 		public LayerMask ground;
 		[HideInInspector]
 		public SkinnedMeshRenderer smr;
-		public static Animator anim;
+		public Animator anim;
 
 		void Start ()
 		{
@@ -65,8 +65,7 @@ namespace PlayerControlled
 					x = Mathf.Clamp (input.x, -1, 1);
 					z = Mathf.Clamp (input.z, -1, 1);
 					Vector3 direction = new Vector3 (x, 0, z);
-					anim.SetBool ("Idle", Idle (direction));
-					anim.SetBool ("Fast", Fast (direction));
+					anim.SetFloat ("Speed", (x > z) ? x : z);
 					transform.LookAt (transform.position + direction);
 					//nt.rigidbody3D.
 					r.MovePosition (transform.position + (direction * speed));
@@ -80,6 +79,7 @@ namespace PlayerControlled
 		void RunPlayer ()
 		{
 			stamina.Drain (-Time.deltaTime * stamina.staminaRegain);
+			anim.SetFloat ("Dash", stamina.Staminar);
 			//Raycast to detect when near the ground
 			RaycastHit rh;
 			grounded = Physics.Raycast (transform.position, Vector3.down * 0.2f, out rh);
@@ -94,13 +94,14 @@ namespace PlayerControlled
 		{
 			//	Debug.Log ("jumping");
 			canJump = false;
+			anim.SetBool ("Grounded", false);
 			anim.SetBool ("Jumping", canJump);
 			r.AddForce (Vector3.up * jumpHeight);
 			//	r.MovePosition (transform.position + (Vector3.up * jumpHeight));
 			yield return new WaitForSeconds (0.5f);
 			yield return new WaitUntil (() => grounded);
 			canJump = true;
-			anim.SetBool ("Jumping", canJump);
+			anim.SetBool ("Grounded", true);
 		}
 
 		protected bool canDash = true;

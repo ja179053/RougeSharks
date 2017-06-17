@@ -20,7 +20,9 @@ public class Rouge : MonoBehaviour
 		if (c.gameObject.tag == "Player") {
 			change = 1;
 			Rigidbody r = GetComponent<Rigidbody> ();
-			c.gameObject.GetComponent<Player> ().Damage ((r.velocity.x + r.velocity.y + r.velocity.z)/10);
+			Player p = c.gameObject.GetComponent<Player> ();
+			p.Damage ((r.velocity.x + r.velocity.y + r.velocity.z)/100);
+			p.anim.SetTrigger ("Hit");
 			myState = state.ShouldGo;
 		} else {
 			//	Debug.Log (c.collider.name);

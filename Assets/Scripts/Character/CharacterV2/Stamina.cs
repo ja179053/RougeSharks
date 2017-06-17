@@ -14,8 +14,6 @@ public class Stamina : MonoBehaviour {
 		} set {
 			stamina = Mathf.Clamp(value,0,maxStamina);
 			transform.localScale = new Vector3 (transform.localScale.x, stamina / maxStamina, transform.localScale.z);
-			Player.anim.SetFloat ("Dash", value);
-
 		}
 	}
 	public void Drain(float f){
