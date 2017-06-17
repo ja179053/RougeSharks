@@ -5,18 +5,14 @@ using PlayerControlled;
 
 public class CameraScript : Manager
 {
-	static Player[] players;
-	public Transform[] startPoints;
-	public Vector3 centre;
+	public static Vector3 centre;
 	public float minUpdateDistance;
-	public GameObject staminaBar, newPlayer, newEnemy;
 	// Use this for initialization
 	void Start ()
 	{
 		MusicSetUp ();
 		Cursor.visible = false;
 		startRot = transform.rotation;
-		FindExistingPlayers ();
 	}
 	public GameObject pauseMenu, optionsMenu;
 	Quaternion startRot;
@@ -42,28 +38,7 @@ public class CameraScript : Manager
 		pauseMenu.SetActive (!optionsMenu.activeSelf);
 	}
 
-	void FindExistingPlayers(){
-		Player[] tempPlayers = FindObjectsOfType<Player> ();
-		players = new Player[playerAIFalseCount.Length];
-		for(int i = 0; i < players.Length; i++){
-			if (i < tempPlayers.Length) {
-				players [i] = tempPlayers [i];
-				players [i].playerNumber = i + 1;
-				players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-				players [i].stamina.GetComponent<Follow> ().target = players [i].transform;
-			} else {
-				GameObject g = GameObject.Instantiate (nlm.spawnPrefabs[0], startPoints [i].position, Quaternion.identity) as GameObject;
-				NetworkServer.Spawn (g);
-				players [i] = g.GetComponent<Player> ();
-				players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
-				players [i].stamina.GetComponent<Follow> ().target = players [i].transform;
-				players [i].playerNumber = i + 1;
-			}
-		}
-		Debug.Log ("level setup complete");
-		centre = Player.respawnPoint;
-	}
-	
+	public static Player[] players;
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
@@ -79,9 +54,6 @@ public class CameraScript : Manager
 				RaycastAll ();*/
 			}
 	//		transform.LookAt (centre);
-		} else {
-			Debug.LogError ("Players not found");
-			FindExistingPlayers ();
 		}
 	}
 

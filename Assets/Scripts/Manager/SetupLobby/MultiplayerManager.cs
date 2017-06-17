@@ -38,7 +38,7 @@ public class MultiplayerManager : Manager
 		}
 	}
 	public void CreateMatch(){
-		nlm.matchMaker.CreateMatch ("default", 4, false, "", "192.168.1.254", "", 0, 1, nlm.OnMatchCreate);
+		nlm.matchMaker.CreateMatch ("default", 4, true, "", "192.168.1.254", "192.168.1.254", 0, 1, nlm.OnMatchCreate);
 		SetUpPlayer (0);
 	}
 	public void Host ()

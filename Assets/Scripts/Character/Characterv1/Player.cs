@@ -43,19 +43,24 @@ namespace PlayerControlled
 			if (setSpeed > speed) {
 				speed = setSpeed;
 			}
+			if (MultiplayerManager.onlinePlayers != 1) {
+				playerNumber = 1;
+			}
 		}
 		// Update is called once per frame.
-		void Update ()
+		void LateUpdate ()
 		{
-			Inputs (new Vector3 (Input.GetAxis ("Horizontal" + playerNumber), 0, Input.GetAxis ("Vertical" + playerNumber)));
-			PowerInputs ();
+			if (isLocalPlayer) {
+				Inputs (new Vector3 (Input.GetAxis ("Horizontal" + playerNumber), 0, Input.GetAxis ("Vertical" + playerNumber)));
+				PowerInputs ();
+			}
 		}
 
 		NetworkTransform nt;
 		public bool dead;
 		protected void Inputs (Vector3 input)
 		{
-			if (!dead) {
+			if (!dead && stamina != null) {
 				if (canDash) {
 					//Reads Inputs and moves the input direction.
 					float x, z;
