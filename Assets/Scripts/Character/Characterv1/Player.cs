@@ -43,15 +43,13 @@ namespace PlayerControlled
 			if (setSpeed > speed) {
 				speed = setSpeed;
 			}
-			if (MultiplayerManager.onlinePlayers != 1) {
-				playerNumber = 1;
-			}
 		}
 		// Update is called once per frame.
 		void LateUpdate ()
 		{
 			if (isLocalPlayer) {
-				Inputs (new Vector3 (Input.GetAxis ("Horizontal" + playerNumber), 0, Input.GetAxis ("Vertical" + playerNumber)));
+				int i = (MultiplayerManager.onlinePlayers != 1) ? 1 : playerNumber;
+				Inputs (new Vector3 (Input.GetAxis ("Horizontal" + i), 0, Input.GetAxis ("Vertical" + playerNumber)));
 				PowerInputs ();
 			}
 		}
