@@ -5,6 +5,7 @@ using PlayerControlled;
 public class Rouge : MonoBehaviour
 {
 	Rigidbody r;
+	public float flinchSpeed = 2f;
 	void Start ()
 	{
 		if (m == null) {
@@ -19,11 +20,14 @@ public class Rouge : MonoBehaviour
 	{
 		if (c.gameObject.tag == "Player") {
 			change = 1;
-			Rigidbody r = GetComponent<Rigidbody> ();
-			Player p = c.gameObject.GetComponent<Player> ();
-			p.Damage ((r.velocity.x + r.velocity.y + r.velocity.z)/100);
-			p.anim.SetTrigger ("Hit");
-			myState = state.ShouldGo;
+			Rigidbody r = c.gameObject.GetComponent<Rigidbody> ();
+			if (Mathf.Abs(r.velocity.x) > flinchSpeed || Mathf.Abs(r.velocity.z) > flinchSpeed) {
+				Debug.Log (r.velocity);
+				Player p = gameObject.GetComponent<Player> ();
+				p.Damage ((r.velocity.x + r.velocity.y + r.velocity.z) / 100);
+				p.anim.SetTrigger ("Hit");
+				myState = state.ShouldGo;
+			}
 		} else {
 			//	Debug.Log (c.collider.name);
 		}
