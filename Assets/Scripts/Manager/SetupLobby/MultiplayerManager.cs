@@ -6,28 +6,37 @@ using System.Collections;
 
 public class MultiplayerManager : Manager
 {
-	static MultiplayerManager instance;
 	public Text[] characterSetUp;
 
 	bool[] buttons;
 	public static int onlinePlayers = 1;
 
 	void Awake(){
-		if (instance == null) {
-			instance = this;
-			DontDestroyOnLoad (this);
-		} else {
+		if (nlm != null) {
 			Debug.Log ("instance already exists");
-			Destroy (this.gameObject);
+			Destroy (nlm.gameObject);
 		}
 		Cursor.visible = true;
-	}
-
-	new void Start ()
-	{
+		nlm = GetComponent<NetworkLobbyManager> ();
 		MusicSetUp ();
-		if (nlm == null) {
-			nlm = GetComponent<NetworkLobbyManager> ();
+		DontDestroyOnLoad (this);
+		StartCoroutine(ReLoadPlayers ());
+	}
+	void OnPlayerConnected(){
+		if (nlm.numPlayers == 0) {
+			Host ();
+		} else {
+			Join ();
+		}
+	}
+	IEnumerator ReLoadPlayers(){
+		yield return new WaitForSeconds (0.3f);
+		if (playerAIFalseCount != null) {
+			Host ();
+			yield return new WaitForEndOfFrame ();
+			if (playerAIFalseCount [1] == false) {
+				Join ();
+			}
 		}
 	}
 
@@ -46,6 +55,7 @@ public class MultiplayerManager : Manager
 		if (nlm.numPlayers == 0) {
 		//	nlm.networkAddress = Network.player.ipAddress;
 			nlm.StartHost ();
+			Debug.Log ("host started");
 			SetUpPlayer (0);
 		}
 	}
@@ -102,6 +112,14 @@ public class MultiplayerManager : Manager
 		return true;
 	}
 	public void MainMenu(){
-		SceneManager.LoadScene (0);		
+		if (nlm.numPlayers != 0) {
+			nlm.StopHost ();
+		}
+		StartCoroutine (LoadMainMenu ());
+	}
+	IEnumerator LoadMainMenu(){
+		yield return new WaitForSeconds (1);
+		RemoveInstance ();
+		SceneManager.LoadScene (0);	
 	}
 }

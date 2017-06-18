@@ -8,12 +8,10 @@ public class LobbyPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Awake(){
 		DontDestroyOnLoad (this.gameObject);
-	}
-	void Start () {
 		nlp = GetComponent<NetworkLobbyPlayer> ();
 		nlp.readyToBegin = true;
 		NetworkLobbyManager nlm = FindObjectOfType<NetworkLobbyManager> ();
-	//	Debug.Log(nlm.startPositions.Count);
+		//	Debug.Log(nlm.startPositions.Count);
 	}
 	
 /*	// Update is called once per frame

@@ -17,9 +17,6 @@ public abstract class Manager : MonoBehaviour {
 	//Number of players starting the match
 	public static bool[] playerAIFalseCount;
 	// Use this for audio initialisation
-	void Start () {
-		MusicSetUp ();
-	}
 	protected void MusicSetUp(){
 		am = Resources.Load ("MainAudioMixer") as AudioMixer;
 		aso = GetComponent<AudioSource> ();
@@ -33,12 +30,16 @@ public abstract class Manager : MonoBehaviour {
 		SceneManager.LoadScene (i - 1);
 	}
 	public static void EndGame(){
-		Debug.Log ("Game over");
+	//	nlm.StopHost ();
 		Cursor.visible = true;
-		SceneManager.LoadScene (1);
+		nlm.ServerReturnToLobby ();
+		nlm.StopHost ();
+		RemoveInstance ();
+	}
+	protected static void RemoveInstance(){
+		Destroy (nlm.gameObject);
 	}
 	public void Leave(){
-		nlm.StopHost ();
 		Debug.Log (nlm.matchHost);
 		EndGame ();
 	}

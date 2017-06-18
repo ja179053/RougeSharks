@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 using PlayerControlled;
 
 public class CameraScript : Manager
@@ -13,6 +14,7 @@ public class CameraScript : Manager
 		MusicSetUp ();
 		Cursor.visible = false;
 		startRot = transform.rotation;
+		deadPlayers = new List<int> ();
 	}
 	public GameObject pauseMenu, optionsMenu;
 	Quaternion startRot;
@@ -104,11 +106,20 @@ public class CameraScript : Manager
 		f += Camera.main.fieldOfView;
 		Camera.main.fieldOfView = Mathf.Clamp (f, 35, 120);
 	}
-	static int deadPlayers = 0;
-	public static void Die(){
-		deadPlayers++;
-		if ((players.Length - deadPlayers) < 2) {
+	static List<int> deadPlayers;
+	public static IEnumerator Die(int playerNum){
+		deadPlayers.Add (playerNum);
+		if ((players.Length - deadPlayers.Count) < 2) {
+			Debug.Log ("Game over");
+			for (int i = 1; i < 5; i++){
+				if (!deadPlayers.Contains(i)){
+					players [i - 1].dead = true;
+					break;
+				}
+			}
+			yield return new WaitForSeconds (1);
 			EndGame ();
 		} 
+		yield return new WaitForSeconds(0);
 	}
 }

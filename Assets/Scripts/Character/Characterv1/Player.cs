@@ -167,7 +167,7 @@ namespace PlayerControlled
 				if (lives < 1) {
 					//
 					dead = true;
-					CameraScript.Die ();
+					StartCoroutine(CameraScript.Die (playerNumber));
 					r.Sleep ();
 				} else {
 					//Respawns player with maximum stamina

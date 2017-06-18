@@ -20,11 +20,15 @@ public class EnemySpawner : NetworkBehaviour
 			} else {
 				GameObject g;
 				if (Manager.playerAIFalseCount [i] == true) {
+					if (Manager.nlm.spawnPrefabs [0] == null) {
+						continue;
+					}
+					Debug.Log (Manager.nlm);
 					g = GameObject.Instantiate (Manager.nlm.spawnPrefabs [0], startPoints [i].position, Quaternion.identity) as GameObject;
 				} else {
 					g = GameObject.Instantiate (Manager.nlm.gamePlayerPrefab, startPoints [i].position, Quaternion.identity) as GameObject;
 				}
-				NetworkServer.Spawn (g);
+		//		NetworkServer.Spawn (g);
 				players [i] = g.GetComponent<Player> ();
 			}
 			players [i].stamina = GameObject.Instantiate (staminaBar).GetComponent<Stamina> ();
