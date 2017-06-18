@@ -11,8 +11,9 @@ public class Countdown : MonoBehaviour {
 	void Start () {
 		StartCoroutine (Play ());
 	}
-	int time = 3;
+	int time = 4;
 	IEnumerator Play(){
+		time --;
 		countdownText.text = "" + time;
 		yield return new WaitForSeconds (countSpeed);
 		if (time < 1) {
