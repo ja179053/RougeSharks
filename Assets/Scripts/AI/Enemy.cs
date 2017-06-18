@@ -11,8 +11,10 @@ public class Enemy : Player {
 	}
 	// Update is called once per frame
 	new void Update () {
-		Look ();
-		Move ();
+		if (Countdown.started) {
+			Look ();
+			Move ();
+		}
 	}
 	void Look(){
 		//Dashes the target when close enough to the target. If no target is assigned, looks for a player

@@ -58,7 +58,7 @@ namespace PlayerControlled
 		public bool dead;
 		protected void Inputs (Vector3 input)
 		{
-			if (!dead && stamina != null) {
+			if (!dead && Countdown.started && stamina != null) {
 				if (canDash) {
 					//Reads Inputs and moves the input direction.
 					float x, z;
