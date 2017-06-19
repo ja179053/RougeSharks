@@ -108,6 +108,7 @@
     <Compile Include="Assets\Scripts\Manager\Title.cs" />
     <Compile Include="Assets\Scripts\Manager\WaitLoad.cs" />
     <Compile Include="Assets\Scripts\Tools\NumberTools.cs" />
+    <Compile Include="Assets\UI\Menu\MenuSelect.cs" />
     <Compile Include="Assets\UI\PlayerUIController.cs" />
     <Compile Include="Assets\UI\TogglePlayerSelect.cs" />
   </ItemGroup>
