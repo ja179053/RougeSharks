@@ -45,12 +45,13 @@ namespace PlayerControlled
 			}
 		}
 		// Update is called once per frame.
-		void LateUpdate ()
+		protected void Update ()
 		{
 			if (isLocalPlayer) {
 				int i = (MultiplayerManager.onlinePlayers != 1) ? 1 : playerNumber;
 				Inputs (new Vector3 (Input.GetAxis ("Horizontal" + i), 0, Input.GetAxis ("Vertical" + playerNumber)));
 				PowerInputs ();
+				PauseInput ();
 			}
 		}
 
@@ -73,6 +74,13 @@ namespace PlayerControlled
 					r.MovePosition (transform.position + (transform.forward * dashBoost * (1 + dashHoldTime)));			
 				}
 				RunPlayer ();
+			}
+		}
+		void PauseInput(){
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				if (!CameraScript.Paused || CameraScript.pausedPlayerNum == playerNumber) {
+					CameraScript.TogglePaused (playerNumber);
+				}
 			}
 		}
 

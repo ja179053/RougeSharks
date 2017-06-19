@@ -7,6 +7,7 @@ using PlayerControlled;
 public class CameraScript : Manager
 {
 	public static Vector3 centre;
+	public static int pausedPlayerNum = 0;
 	public float minUpdateDistance;
 	// Use this for initialization
 	void Start ()
@@ -15,22 +16,28 @@ public class CameraScript : Manager
 		Cursor.visible = false;
 		startRot = transform.rotation;
 		deadPlayers = new List<int> ();
+		pauseMenu = GameObject.Find ("PauseMenu");
+		optionsMenu = GameObject.Find ("OptionsMenu");
+		pauseMenu.SetActive (false);
+		optionsMenu.SetActive (false);
 	}
-	public GameObject pauseMenu, optionsMenu;
+	public static GameObject pauseMenu, optionsMenu;
+	public static float timeScale = 1f;
 	Quaternion startRot;
-	bool paused;
-	public bool Paused{
+	static bool paused;
+	public static bool Paused{
 		get{
 			return paused;
 		} set {
 			paused = value;
-			Time.timeScale = (paused) ? 0 : 1;
-			pauseMenu.SetActive (paused);
+			timeScale = (value) ? 0.00001f : 1f;
+			Time.timeScale = timeScale;
+			pauseMenu.SetActive (value);
 			ToggleOptionsDispay (true);
-			Cursor.visible = paused;
+			Cursor.visible = value;
 		}
 	}
-	public void ToggleOptionsDispay(bool mustDisable){
+	public static void ToggleOptionsDispay(bool mustDisable){
 		if (mustDisable) {
 			optionsMenu.SetActive (false);
 			pauseMenu.SetActive (Paused);
@@ -58,15 +65,16 @@ public class CameraScript : Manager
 	//		transform.LookAt (centre);
 		}
 	}
-
-	new void Update ()
-	{
-		if (Input.GetKeyDown (KeyCode.Escape)) {
-			//EndGame ();
-			Paused = !Paused;
-		}
+	public static void TogglePaused(int playerNumber){
+		pausedPlayerNum = (playerNumber != 0) ? 0 : playerNumber;
+		Paused = !Paused;
 	}
-
+	public void UnPause(){
+		TogglePaused (pausedPlayerNum);
+	}
+	public void ToggleOptions(bool mustDisable){
+		ToggleOptionsDispay (mustDisable);
+	}
 	Vector3 FindCentre ()
 	{
 		Vector3 tempCentre = Vector3.zero;

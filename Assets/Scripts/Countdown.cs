@@ -15,9 +15,12 @@ public class Countdown : MonoBehaviour {
 	IEnumerator Play(){
 		time --;
 		countdownText.text = "" + time;
+		if (time == 0) {
+			started = true;
+			countdownText.text = "GO";
+		}
 		yield return new WaitForSeconds (countSpeed);
 		if (time < 1) {
-			started = true;
 			countdownText.text = "";
 		} else {
 			StartCoroutine (Play ());
